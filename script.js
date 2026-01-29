@@ -118,7 +118,7 @@ function renderSoal(i) {
     <b>${q.soal}</b>
     ${q.opts.map(o=>`
       <button class="option" onclick="jawab(${i},'${o.k}')">
-        ${o.k}. ${o.t}
+        ${o.t}
       </button>
     `).join("")}
   `;
