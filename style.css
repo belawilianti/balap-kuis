@@ -8,41 +8,36 @@ body {
 
 h1 { margin: 10px 0; }
 
+/* TRACK */
 #track {
-  position: relative;
   max-width: 1000px;
   margin: 0 auto 15px;
-  background: #a8ddff;
+  background: #bde3ff;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .lane {
-  height: 60px;
-  border-bottom: 1px dashed #666;
   position: relative;
+  height: 60px;
+  border-bottom: 2px dashed #666;
 }
 
-.robot {
+.car {
   position: absolute;
   left: 0;
-  top: 12px;
-  font-size: 32px;
+  top: 10px;
+  font-size: 36px;
   transition: left 0.3s ease;
+  animation: idle 0.6s infinite alternate;
 }
 
-.finish {
-  background: #6fcf97;
-  padding: 5px;
-  font-weight: bold;
+@keyframes idle {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-3px); }
 }
 
-.start {
-  background: #f2b94b;
-  padding: 5px;
-  font-weight: bold;
-}
-
+/* PLAYER PANELS */
 #players {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -75,6 +70,7 @@ h1 { margin: 10px 0; }
 
 .option:active { background: #1f78b4; }
 
+/* COLORS */
 .blue { border: 3px solid #2f80ed; }
 .red { border: 3px solid #eb5757; }
 .yellow { border: 3px solid #f2c94c; }
@@ -86,18 +82,16 @@ h1 { margin: 10px 0; }
   inset: 0;
   background: linear-gradient(135deg, #56ccf2, #2f80ed);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  flex-direction: column;
 }
 
 .opening-box {
   background: white;
   padding: 30px 40px;
   border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .opening-box button {
@@ -107,19 +101,13 @@ h1 { margin: 10px 0; }
   border-radius: 10px;
   background: #27ae60;
   color: white;
-  cursor: pointer;
 }
 
+/* COUNTDOWN */
 #countdown {
   font-size: 100px;
   color: white;
   font-weight: bold;
-  animation: pop 1s ease;
-}
-
-/* FIX UTAMA */
-.hidden {
-  display: none !important;
 }
 
 /* WINNER */
@@ -133,16 +121,14 @@ h1 { margin: 10px 0; }
   z-index: 10000;
 }
 
-#winner.hidden {
-  display: none !important;
-}
+#winner.hidden { display: none !important; }
 
 .winner-box {
   background: linear-gradient(135deg, #f2c94c, #f2994a);
   padding: 40px;
   border-radius: 20px;
   text-align: center;
-  animation: winPop 0.8s ease;
+  animation: pop 0.8s ease;
 }
 
 .trophy {
@@ -150,4 +136,14 @@ h1 { margin: 10px 0; }
   animation: bounce 1s infinite alternate;
 }
 
-@keyfr
+.hidden { display: none !important; }
+
+@keyframes pop {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-15px); }
+}
