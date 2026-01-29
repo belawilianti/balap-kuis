@@ -2,43 +2,31 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Balap Robot Cerdas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balap Kuis</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🏁 BALAP ROBOT CERDAS</h1>
+<h1>Balap Kuis</h1>
 
-<div id="race">
-  <div class="lane">
-    <span class="robot" id="r0">🤖</span>
-  </div>
-  <div class="lane">
-    <span class="robot" id="r1">🤖</span>
-  </div>
-  <div class="lane">
-    <span class="robot" id="r2">🤖</span>
-  </div>
-  <div class="lane">
-    <span class="robot" id="r3">🤖</span>
-  </div>
+<div id="track">
+  <div class="finish">FINISH</div>
 
-  <div id="finish">🏁</div>
+  <div class="lane"><span class="robot blue" id="r0">🤖</span></div>
+  <div class="lane"><span class="robot red" id="r1">🤖</span></div>
+  <div class="lane"><span class="robot yellow" id="r2">🤖</span></div>
+  <div class="lane"><span class="robot green" id="r3">🤖</span></div>
+
+  <div class="start">START</div>
 </div>
 
-<div id="info">
-  <h2 id="turn">Pemain 1</h2>
-  <div id="question">Klik START</div>
+<div id="players">
+  <div class="player blue" id="p0"></div>
+  <div class="player red" id="p1"></div>
+  <div class="player yellow" id="p2"></div>
+  <div class="player green" id="p3"></div>
 </div>
-
-<div class="options">
-  <button onclick="answer('A')">A</button>
-  <button onclick="answer('B')">B</button>
-  <button onclick="answer('C')">C</button>
-</div>
-
-<button id="start" onclick="startGame()">START</button>
 
 <script src="script.js"></script>
 </body>
