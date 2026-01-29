@@ -1,19 +1,35 @@
+/* ===============================
+   KONFIGURASI
+================================ */
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
 const FINISH = 820;
 const STEP = 60;
 
+/* ===============================
+   STATE GAME
+================================ */
 let bankSoal = [];
 let players = [];
+let gameOver = false;
 
+/* ===============================
+   UTIL
+================================ */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-async function init() {
+/* ===============================
+   INIT GAME (DIPANGGIL SETELAH COUNTDOWN)
+================================ */
+async function startGame() {
   const res = await fetch(sheetURL);
   bankSoal = shuffle(await res.json());
+
+  players = [];
+  gameOver = false;
 
   for (let i = 0; i < 4; i++) {
     players.push({
@@ -22,13 +38,19 @@ async function init() {
       robot: document.getElementById("r" + i),
       panel: document.getElementById("p" + i)
     });
+
+    players[i].robot.style.left = "0px";
     renderSoal(i);
   }
 }
 
+/* ===============================
+   RENDER SOAL PER PLAYER
+================================ */
 function renderSoal(i) {
   const p = players[i];
   const q = bankSoal[p.soalIndex];
+  if (!q) return;
 
   p.panel.innerHTML = `
     <h3>Player ${i + 1}</h3>
@@ -39,7 +61,12 @@ function renderSoal(i) {
   `;
 }
 
+/* ===============================
+   JAWAB SOAL
+================================ */
 function jawab(i, pilih) {
+  if (gameOver) return;
+
   const p = players[i];
   const q = bankSoal[p.soalIndex];
 
@@ -48,7 +75,8 @@ function jawab(i, pilih) {
     p.robot.style.left = p.pos + "px";
 
     if (p.pos >= FINISH) {
-      alert(`🏆 Player ${i + 1} MENANG!`);
+      gameOver = true;
+      showWinner(i);
       return;
     }
   }
@@ -57,12 +85,24 @@ function jawab(i, pilih) {
   if (p.soalIndex < bankSoal.length) {
     renderSoal(i);
   } else {
-    p.panel.innerHTML += "<p>Soal habis</p>";
+    p.panel.innerHTML += "<p><i>Soal habis</i></p>";
   }
 }
 
-init();
+/* ===============================
+   WINNER ANIMATION
+================================ */
+const winnerOverlay = document.getElementById("winner");
+const winnerText = document.getElementById("winnerText");
 
+function showWinner(i) {
+  winnerText.innerText = `Player ${i + 1}`;
+  winnerOverlay.classList.remove("hidden");
+}
+
+/* ===============================
+   OPENING + COUNTDOWN
+================================ */
 const opening = document.getElementById("opening");
 const startBtn = document.getElementById("startBtn");
 const countdown = document.getElementById("countdown");
@@ -76,18 +116,20 @@ startBtn.onclick = () => {
 
   const timer = setInterval(() => {
     count--;
+
     if (count > 0) {
       countdown.innerText = count;
       countdown.style.animation = "none";
-      countdown.offsetHeight; // reset animation
+      countdown.offsetHeight;
       countdown.style.animation = null;
-    } else if (count === 0) {
+    } 
+    else if (count === 0) {
       countdown.innerText = "GO!";
-    } else {
+    } 
+    else {
       clearInterval(timer);
       opening.style.display = "none";
-      startGame(); // ← INI PENTING (memulai game lama)
+      startGame(); // 🔥 SEKARANG BENAR
     }
   }, 1000);
 };
-
