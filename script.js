@@ -1,16 +1,27 @@
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
-let data = [];
+let questions = [];
 let index = 0;
-let pos = 0;
+let player = 0;
 
-const robot = document.getElementById("r1");
-const questionBox = document.getElementById("question");
+const step = 60;
+const finishX = 700;
+const positions = [0, 0, 0, 0];
+
+const robots = [
+  document.getElementById("r0"),
+  document.getElementById("r1"),
+  document.getElementById("r2"),
+  document.getElementById("r3")
+];
+
+const qBox = document.getElementById("question");
+const turn = document.getElementById("turn");
 
 async function loadSoal() {
   const res = await fetch(sheetURL);
-  data = await res.json();
+  questions = await res.json();
 }
 
 function startGame() {
@@ -19,13 +30,14 @@ function startGame() {
 }
 
 function showSoal() {
-  if (index >= data.length) {
-    questionBox.innerHTML = "🏆 SELESAI!";
+  if (index >= questions.length) {
+    qBox.innerHTML = "Soal habis!";
     return;
   }
 
-  const q = data[index];
-  questionBox.innerHTML = `
+  const q = questions[index];
+  turn.innerText = "Pemain " + (player + 1);
+  qBox.innerHTML = `
     <b>${q.soal}</b><br>
     A. ${q.a}<br>
     B. ${q.b}<br>
@@ -33,12 +45,21 @@ function showSoal() {
   `;
 }
 
-function answer(pilihan) {
-  const benar = data[index].jawaban.toUpperCase();
-  if (pilihan === benar) {
-    pos += 60;
-    robot.style.left = pos + "px";
+function answer(choice) {
+  const correct = questions[index].jawaban.toUpperCase();
+
+  if (choice === correct) {
+    positions[player] += step;
+    robots[player].style.left = positions[player] + "px";
+
+    if (positions[player] >= finishX) {
+      qBox.innerHTML = `🏆 PEMAIN ${player + 1} MENANG!`;
+      turn.innerText = "SELESAI";
+      return;
+    }
   }
+
+  player = (player + 1) % 4;
   index++;
   showSoal();
 }
