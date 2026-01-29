@@ -1,66 +1,86 @@
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
-const STEP = 60;
+const STEP = 40;
 
 let bankSoal = [];
 let players = [];
 let totalPlayers = 2;
-let gameStarted = false;
-let gameOver = true;
 
-/* PILIH JUMLAH PLAYER */
+/* FULLSCREEN */
+document.getElementById("fullscreenBtn").onclick = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+};
+
+/* TAHUN OTOMATIS */
+document.getElementById("year").innerText = new Date().getFullYear();
+
+/* PILIH PLAYER */
 document.querySelectorAll(".ps-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".ps-btn")
-      .forEach(b => b.classList.remove("active"));
-
+  btn.onclick = () => {
+    document.querySelectorAll(".ps-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     totalPlayers = parseInt(btn.dataset.player);
-  });
+  };
 });
 
-/* START GAME */
+/* START */
 document.getElementById("startBtn").onclick = () => {
   document.querySelector(".opening-box").style.display = "none";
-  const countdown = document.getElementById("countdown");
-  countdown.classList.remove("hidden");
+  const cd = document.getElementById("countdown");
+  cd.classList.remove("hidden");
 
   let c = 3;
-  countdown.innerText = c;
+  cd.innerText = c;
 
-  const timer = setInterval(() => {
+  const t = setInterval(() => {
     c--;
-    if (c > 0) countdown.innerText = c;
-    else if (c === 0) countdown.innerText = "GO!";
+    if (c > 0) cd.innerText = c;
+    else if (c === 0) cd.innerText = "GO!";
     else {
-      clearInterval(timer);
+      clearInterval(t);
       document.getElementById("opening").style.display = "none";
       startGame();
     }
   }, 1000);
 };
 
+/* UTIL */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-async function startGame() {
-  gameStarted = true;
-  gameOver = false;
+function randomOrder(n) {
+  return shuffle([...Array(n).keys()]);
+}
 
+function shuffleOptions(q) {
+  let opts = [
+    {k:"A",t:q.a},
+    {k:"B",t:q.b},
+    {k:"C",t:q.c}
+  ];
+  const correctText = opts.find(o=>o.k===q.jawaban).t;
+  opts = shuffle(opts);
+  return { soal:q.soal, opts, correct:opts.find(o=>o.t===correctText).k };
+}
+
+/* GAME */
+async function startGame() {
   const res = await fetch(sheetURL);
-  bankSoal = shuffle(await res.json());
+  bankSoal = await res.json();
 
   const track = document.getElementById("track");
   const panels = document.getElementById("players");
-
   track.innerHTML = "";
   panels.innerHTML = "";
   players = [];
 
   const cars = ["🚗","🚕","🏎️","🚙"];
-  const colors = ["blue","red","yellow","green"];
 
   for (let i = 0; i < totalPlayers; i++) {
     track.innerHTML += `
@@ -68,21 +88,20 @@ async function startGame() {
         <div class="car" id="c${i}">${cars[i]}</div>
       </div>
     `;
-
-    panels.innerHTML += `
-      <div class="player" id="p${i}"></div>
-    `;
+    panels.innerHTML += `<div class="player" id="p${i}"></div>`;
 
     players.push({
-      pos: 0,
-      soalIndex: i,
-      finished: false,
-      car: null,
-      panel: null
+      pos:0,
+      order: randomOrder(bankSoal.length),
+      idx:0,
+      car:null,
+      panel:null,
+      correct:null,
+      finished:false
     });
   }
 
-  players.forEach((p,i) => {
+  players.forEach((p,i)=>{
     p.car = document.getElementById("c"+i);
     p.panel = document.getElementById("p"+i);
     renderSoal(i);
@@ -91,47 +110,40 @@ async function startGame() {
 
 function renderSoal(i) {
   const p = players[i];
-  const q = bankSoal[p.soalIndex];
-  if (!q) return;
+  const q = shuffleOptions(bankSoal[p.order[p.idx]]);
+  p.correct = q.correct;
 
   p.panel.innerHTML = `
     <h3>Player ${i+1}</h3>
     <b>${q.soal}</b>
-    <button class="option" onclick="jawab(${i},'A')">A. ${q.a}</button>
-    <button class="option" onclick="jawab(${i},'B')">B. ${q.b}</button>
-    <button class="option" onclick="jawab(${i},'C')">C. ${q.c}</button>
+    ${q.opts.map(o=>`
+      <button class="option" onclick="jawab(${i},'${o.k}')">
+        ${o.k}. ${o.t}
+      </button>
+    `).join("")}
   `;
 }
 
-function jawab(i,pilih){
+function jawab(i, pilih) {
   const p = players[i];
-  const q = bankSoal[p.soalIndex];
-
-  if(pilih === q.jawaban.toUpperCase()){
+  if (pilih === p.correct) {
     p.pos += STEP;
     p.car.style.left = p.pos+"px";
   }
 
-  p.soalIndex += totalPlayers;
-
-  if(p.soalIndex < bankSoal.length){
+  p.idx++;
+  if (p.idx < p.order.length) {
     renderSoal(i);
-  }else{
+  } else {
     p.finished = true;
     p.panel.innerHTML += "<p><b>SELESAI</b></p>";
-
-    if(players.every(pl=>pl.finished)){
-      tentukanPemenang();
-    }
+    if (players.every(pl=>pl.finished)) tentukanPemenang();
   }
 }
 
-function tentukanPemenang(){
+function tentukanPemenang() {
   let max = Math.max(...players.map(p=>p.pos));
   let win = players.findIndex(p=>p.pos===max);
   document.getElementById("winnerText").innerText = "Player "+(win+1);
   document.getElementById("winner").classList.remove("hidden");
 }
-
-document.getElementById("year").innerText = new Date().getFullYear();
-
