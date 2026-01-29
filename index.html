@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Balap Kuis</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balap Kuis Mobil</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- OPENING -->
 <div id="opening">
   <div class="opening-box">
-    <h1>🏁 BALAP KUIS</h1>
-    <p>Siap berlomba?</p>
+    <h1>🏁 BALAP KUIS MOBIL</h1>
+    <p>Jawab soal, mobil melaju!</p>
     <button id="startBtn">MULAI</button>
   </div>
   <div id="countdown" class="hidden">3</div>
@@ -21,22 +21,20 @@
 <!-- WINNER -->
 <div id="winner" class="hidden">
   <div class="winner-box">
-    <h1>🏆 PEMENANG!</h1>
+    <h1>🏆 PEMENANG</h1>
     <h2 id="winnerText">Player</h2>
-    <div class="trophy">🏆</div>
+    <div class="trophy">🚗</div>
     <button onclick="location.reload()">MAIN LAGI</button>
   </div>
 </div>
 
-<h1>Balap Kuis</h1>
+<h1>Balap Kuis Mobil</h1>
 
 <div id="track">
-  <div class="finish">FINISH</div>
-  <div class="lane"><span class="robot blue" id="r0">🤖</span></div>
-  <div class="lane"><span class="robot red" id="r1">🤖</span></div>
-  <div class="lane"><span class="robot yellow" id="r2">🤖</span></div>
-  <div class="lane"><span class="robot green" id="r3">🤖</span></div>
-  <div class="start">START</div>
+  <div class="lane"><div class="car blue" id="c0">🚗</div></div>
+  <div class="lane"><div class="car red" id="c1">🚕</div></div>
+  <div class="lane"><div class="car yellow" id="c2">🏎️</div></div>
+  <div class="lane"><div class="car green" id="c3">🚙</div></div>
 </div>
 
 <div id="players">
