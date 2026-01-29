@@ -1,28 +1,28 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f2f2f2;
-  text-align: center;
+  background: #e9f6ff;
   margin: 0;
   padding: 10px;
+  text-align: center;
 }
 
 h1 {
   margin: 10px 0;
 }
 
-#race {
+#track {
   position: relative;
-  width: 100%;
-  max-width: 900px;
-  margin: 15px auto;
-  background: #fff;
-  border: 2px solid #000;
+  max-width: 1000px;
+  margin: 0 auto 15px;
+  background: #a8ddff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .lane {
-  position: relative;
   height: 60px;
-  border-bottom: 1px dashed #aaa;
+  border-bottom: 1px dashed #666;
+  position: relative;
 }
 
 .robot {
@@ -30,51 +30,56 @@ h1 {
   left: 0;
   top: 12px;
   font-size: 32px;
-  transition: left 0.4s ease;
+  transition: left 0.3s ease;
 }
 
-#finish {
-  position: absolute;
-  right: 5px;
-  top: 0;
-  bottom: 0;
-  font-size: 28px;
-  display: flex;
-  align-items: center;
+.finish {
+  background: #6fcf97;
+  padding: 5px;
+  font-weight: bold;
 }
 
-#info {
-  margin-top: 10px;
+.start {
+  background: #f2b94b;
+  padding: 5px;
+  font-weight: bold;
 }
 
-#question {
+#players {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.player {
+  background: white;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: left;
+}
+
+.player h3 {
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  margin: 4px 0;
+  padding: 10px;
   font-size: 16px;
-  margin: 10px 0;
-}
-
-.options {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.options button {
-  flex: 1;
-  max-width: 100px;
-  padding: 15px;
-  font-size: 18px;
   border: none;
-  border-radius: 8px;
-  background: #2196f3;
-  color: #fff;
+  border-radius: 6px;
+  background: #3498db;
+  color: white;
 }
 
-.options button:active {
-  background: #1976d2;
+.option:active {
+  background: #1f78b4;
 }
 
-#start {
-  margin-top: 15px;
-  padding: 12px 40px;
-  font-size: 18px;
-}
+.blue { border: 3px solid #2f80ed; }
+.red { border: 3px solid #eb5757; }
+.yellow { border: 3px solid #f2c94c; }
+.green { border: 3px solid #27ae60; }
