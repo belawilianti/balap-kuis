@@ -236,3 +236,14 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================
+   POSISI TENGAH SAAT HANYA 2 PLAYER
+========================================= */
+#players:has(.player:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  justify-content: center;
+  max-width: 700px;   /* agar benar-benar ke tengah */
+  margin: 0 auto;
+}
+
