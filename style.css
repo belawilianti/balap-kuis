@@ -6,9 +6,7 @@ body {
   text-align: center;
 }
 
-h1 {
-  margin: 10px 0;
-}
+h1 { margin: 10px 0; }
 
 #track {
   position: relative;
@@ -75,9 +73,7 @@ h1 {
   color: white;
 }
 
-.option:active {
-  background: #1f78b4;
-}
+.option:active { background: #1f78b4; }
 
 .blue { border: 3px solid #2f80ed; }
 .red { border: 3px solid #eb5757; }
@@ -104,10 +100,6 @@ h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-.opening-box h1 {
-  margin: 0 0 10px;
-}
-
 .opening-box button {
   padding: 15px 40px;
   font-size: 22px;
@@ -118,11 +110,6 @@ h1 {
   cursor: pointer;
 }
 
-.opening-box button:active {
-  transform: scale(0.95);
-}
-
-/* COUNTDOWN */
 #countdown {
   font-size: 100px;
   color: white;
@@ -130,17 +117,12 @@ h1 {
   animation: pop 1s ease;
 }
 
+/* FIX UTAMA */
 .hidden {
-  display: none; !important;
+  display: none !important;
 }
 
-@keyframes pop {
-  0%   { transform: scale(0.3); opacity: 0; }
-  50%  { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* WINNER OVERLAY */
+/* WINNER */
 #winner {
   position: fixed;
   inset: 0;
@@ -151,23 +133,16 @@ h1 {
   z-index: 10000;
 }
 
+#winner.hidden {
+  display: none !important;
+}
+
 .winner-box {
   background: linear-gradient(135deg, #f2c94c, #f2994a);
   padding: 40px;
   border-radius: 20px;
   text-align: center;
   animation: winPop 0.8s ease;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.winner-box h1 {
-  margin: 0;
-  font-size: 32px;
-}
-
-.winner-box h2 {
-  margin: 10px 0 20px;
-  font-size: 26px;
 }
 
 .trophy {
@@ -175,36 +150,4 @@ h1 {
   animation: bounce 1s infinite alternate;
 }
 
-.winner-box button {
-  margin-top: 20px;
-  padding: 12px 30px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #27ae60;
-  color: white;
-}
-
-/* ANIMATIONS */
-@keyframes winPop {
-  0%   { transform: scale(0.3); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-15px); }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+@keyfr
