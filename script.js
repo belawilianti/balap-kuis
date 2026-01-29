@@ -17,9 +17,6 @@ function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-/* ===============================
-   START GAME
-================================ */
 async function startGame() {
   gameOver = false;
   gameStarted = true;
@@ -30,13 +27,13 @@ async function startGame() {
   players = [];
 
   for (let i = 0; i < 4; i++) {
-    const robot = document.getElementById("r" + i);
-    robot.style.left = "0px";
+    const car = document.getElementById("c" + i);
+    car.style.left = "0px";
 
     players.push({
       pos: 0,
       soalIndex: i,
-      robot,
+      car,
       panel: document.getElementById("p" + i),
       finished: false
     });
@@ -45,9 +42,6 @@ async function startGame() {
   }
 }
 
-/* ===============================
-   RENDER SOAL
-================================ */
 function renderSoal(i) {
   if (!gameStarted) return;
 
@@ -64,9 +58,6 @@ function renderSoal(i) {
   `;
 }
 
-/* ===============================
-   JAWAB SOAL
-================================ */
 function jawab(i, pilih) {
   if (gameOver || !gameStarted) return;
 
@@ -77,7 +68,7 @@ function jawab(i, pilih) {
 
   if (pilih === q.jawaban.toUpperCase()) {
     p.pos += STEP;
-    p.robot.style.left = p.pos + "px";
+    p.car.style.left = p.pos + "px";
   }
 
   p.soalIndex += 4;
@@ -88,43 +79,28 @@ function jawab(i, pilih) {
     p.finished = true;
     p.panel.innerHTML += "<p><b>SELESAI</b></p>";
 
-    // cek apakah semua player sudah selesai
-    const allDone = players.every(pl => pl.finished);
-    if (allDone) {
+    if (players.every(pl => pl.finished)) {
       gameOver = true;
       tentukanPemenang();
     }
   }
 }
 
-/* ===============================
-   HITUNG PEMENANG
-================================ */
 function tentukanPemenang() {
-  let maxPos = -1;
-  let winnerIndex = 0;
+  let max = Math.max(...players.map(p => p.pos));
+  let winners = players
+    .map((p, i) => ({ p, i }))
+    .filter(x => x.p.pos === max);
 
-  players.forEach((p, i) => {
-    if (p.pos > maxPos) {
-      maxPos = p.pos;
-      winnerIndex = i;
-    }
-  });
-
-  showWinner(winnerIndex);
+  showWinner(winners[0].i);
 }
 
-/* ===============================
-   SHOW WINNER
-================================ */
 function showWinner(i) {
   document.getElementById("winnerText").innerText = `Player ${i + 1}`;
   document.getElementById("winner").classList.remove("hidden");
 }
 
-/* ===============================
-   OPENING + COUNTDOWN
-================================ */
+/* OPENING */
 const opening = document.getElementById("opening");
 const startBtn = document.getElementById("startBtn");
 const countdown = document.getElementById("countdown");
@@ -138,14 +114,9 @@ startBtn.onclick = () => {
 
   const timer = setInterval(() => {
     count--;
-    if (count > 0) {
-      countdown.innerText = count;
-      countdown.style.animation = "none";
-      countdown.offsetHeight;
-      countdown.style.animation = null;
-    } else if (count === 0) {
-      countdown.innerText = "GO!";
-    } else {
+    if (count > 0) countdown.innerText = count;
+    else if (count === 0) countdown.innerText = "GO!";
+    else {
       clearInterval(timer);
       opening.style.display = "none";
       startGame();
