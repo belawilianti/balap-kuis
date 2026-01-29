@@ -1,26 +1,93 @@
 body {
   font-family: Arial, sans-serif;
-  background: #e9f6ff;
+  background: #56ccf2;
   margin: 0;
-  padding: 10px;
+  padding: 0;
   text-align: center;
 }
 
-h1 { margin: 10px 0; }
+/* OPENING */
+#opening {
+  position: fixed;
+  inset: 0;
+  background: #56ccf2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.opening-box {
+  background: white;
+  padding: 35px 45px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.player-select {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* BUTTON PILIH PLAYER */
+.ps-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  background: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ps-btn:hover {
+  background: #cfcfcf;
+}
+
+.ps-btn.active {
+  background: #27ae60 !important;
+  color: white;
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* BUTTON START */
+.start-btn {
+  padding: 14px 40px;
+  font-size: 20px;
+  border: none;
+  border-radius: 14px;
+  background: #27ae60;
+  color: white;
+  cursor: pointer;
+}
+
+/* COUNTDOWN */
+#countdown {
+  font-size: 100px;
+  font-weight: bold;
+  color: white;
+}
+
+.hidden {
+  display: none !important;
+}
 
 /* TRACK */
 #track {
   max-width: 1000px;
-  margin: 0 auto 15px;
+  margin: 15px auto;
   background: #bde3ff;
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 10px;
 }
 
 .lane {
   position: relative;
   height: 60px;
-  border-bottom: 2px dashed #666;
+  border-bottom: 2px dashed #555;
 }
 
 .car {
@@ -29,12 +96,6 @@ h1 { margin: 10px 0; }
   top: 10px;
   font-size: 36px;
   transition: left 0.3s ease;
-  animation: idle 0.6s infinite alternate;
-}
-
-@keyframes idle {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-3px); }
 }
 
 /* PLAYER PANELS */
@@ -42,6 +103,7 @@ h1 { margin: 10px 0; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
+  padding: 10px;
 }
 
 .player {
@@ -51,82 +113,15 @@ h1 { margin: 10px 0; }
   text-align: left;
 }
 
-.player h3 {
-  margin: 0 0 6px;
-  text-align: center;
-}
-
 .option {
-  display: block;
   width: 100%;
-  margin: 4px 0;
+  margin: 5px 0;
   padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  background: #3498db;
-  color: white;
-}
-
-.option:active { background: #1f78b4; }
-
-/* COLORS */
-.blue { border: 3px solid #2f80ed; }
-.red { border: 3px solid #eb5757; }
-.yellow { border: 3px solid #f2c94c; }
-.green { border: 3px solid #27ae60; }
-
-/* OPENING */
-#opening {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, #56ccf2, #2f80ed);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.opening-box {
-  background: white;
-  padding: 30px 40px;
-  border-radius: 16px;
-}
-
-.opening-box button {
-  padding: 15px 40px;
-  font-size: 22px;
-  border: none;
-  border-radius: 10px;
-  background: #27ae60;
-  color: white;
-}
-
-.player-select {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.ps-btn {
-  padding: 10px 20px;
-  font-size: 16px;
   border: none;
   border-radius: 8px;
-  background: #ddd;
-}
-
-.ps-btn.active {
-  background: #27ae60;
+  background: #3498db;
   color: white;
-}
-
-/* COUNTDOWN */
-#countdown {
-  font-size: 100px;
-  color: white;
-  font-weight: bold;
+  font-size: 16px;
 }
 
 /* WINNER */
@@ -137,33 +132,14 @@ h1 { margin: 10px 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
 }
-
-#winner.hidden { display: none !important; }
 
 .winner-box {
   background: linear-gradient(135deg, #f2c94c, #f2994a);
   padding: 40px;
   border-radius: 20px;
-  text-align: center;
-  animation: pop 0.8s ease;
 }
 
 .trophy {
   font-size: 80px;
-  animation: bounce 1s infinite alternate;
 }
-
-.hidden { display: none !important; }
-
-@keyframes pop {
-  from { transform: scale(0.3); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-15px); }
-}
-
