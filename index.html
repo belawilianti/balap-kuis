@@ -2,29 +2,31 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Game Balap Kuis</title>
+  <title>Balap Robot Cerdas</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Balap Kuis Pengetahuan</h1>
+<h1>🏁 BALAP ROBOT CERDAS</h1>
 
-  <div id="game-area">
-    <div class="track" id="p1">🚗 Player 1</div>
-    <div class="track" id="p2">🚙 Player 2</div>
-    <div class="track" id="p3">🛻 Player 3</div>
-    <div class="track" id="p4">🚕 Player 4</div>
+<div id="race">
+  <div class="lane">
+    <span class="robot" id="r1">🤖</span>
   </div>
+</div>
 
-  <div id="question-box">
-    <p id="question">Klik “Start” untuk mulai</p>
-    <input type="text" id="answer" placeholder="Jawab di sini">
-    <button id="submit">Submit Jawaban</button>
+<div id="quiz">
+  <div id="question">Klik START</div>
+
+  <div class="options">
+    <button onclick="answer('A')">A</button>
+    <button onclick="answer('B')">B</button>
+    <button onclick="answer('C')">C</button>
   </div>
+</div>
 
-  <button id="start">Start</button>
+<button id="start" onclick="startGame()">START</button>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
