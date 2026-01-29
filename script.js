@@ -1,7 +1,6 @@
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
-const FINISH = 820;
 const STEP = 60;
 
 let bankSoal = [];
@@ -16,6 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
+}
+
+function getFinishX() {
+  const lane = document.querySelector(".lane");
+  const robot = document.querySelector(".robot");
+  return lane.offsetWidth - robot.offsetWidth - 10;
 }
 
 async function startGame() {
@@ -44,6 +49,7 @@ async function startGame() {
 
 function renderSoal(i) {
   if (!gameStarted) return;
+
   const p = players[i];
   const q = bankSoal[p.soalIndex];
   if (!q) return;
@@ -67,7 +73,7 @@ function jawab(i, pilih) {
     p.pos += STEP;
     p.robot.style.left = p.pos + "px";
 
-    if (p.pos >= FINISH) {
+    if (p.pos >= getFinishX()) {
       gameOver = true;
       showWinner(i);
       return;
