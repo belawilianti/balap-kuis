@@ -62,3 +62,32 @@ function jawab(i, pilih) {
 }
 
 init();
+
+const opening = document.getElementById("opening");
+const startBtn = document.getElementById("startBtn");
+const countdown = document.getElementById("countdown");
+
+startBtn.onclick = () => {
+  document.querySelector(".opening-box").style.display = "none";
+  countdown.classList.remove("hidden");
+
+  let count = 3;
+  countdown.innerText = count;
+
+  const timer = setInterval(() => {
+    count--;
+    if (count > 0) {
+      countdown.innerText = count;
+      countdown.style.animation = "none";
+      countdown.offsetHeight; // reset animation
+      countdown.style.animation = null;
+    } else if (count === 0) {
+      countdown.innerText = "GO!";
+    } else {
+      clearInterval(timer);
+      opening.style.display = "none";
+      startGame(); // ← INI PENTING (memulai game lama)
+    }
+  }, 1000);
+};
+
