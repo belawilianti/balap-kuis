@@ -2,6 +2,7 @@ const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
 const STEP = 40;
+const JUMLAH_PER_KATEGORI = 5; // 🔧 atur jumlah soal tiap kategori untuk campuran
 
 let bankSoal = [];
 let players = [];
@@ -82,13 +83,28 @@ async function startGame() {
   const allSoal = await (await fetch(sheetURL)).json();
 
   if (selectedCategory === "campuran") {
-    bankSoal = allSoal;
+    const kategoriList = [
+      "matematika",
+      "ipa",
+      "ips",
+      "bahasa_indonesia",
+      "bahasa_inggris"
+    ];
+
+    bankSoal = [];
+
+    kategoriList.forEach(kat => {
+      const soalKategori = allSoal.filter(s => s.kategori === kat);
+      const acak = shuffle([...soalKategori]);
+      bankSoal.push(...acak.slice(0, JUMLAH_PER_KATEGORI));
+    });
+
   } else {
     bankSoal = allSoal.filter(s => s.kategori === selectedCategory);
   }
 
   if (bankSoal.length === 0) {
-    alert("Soal kategori ini belum tersedia.");
+    alert("Soal untuk kategori ini belum tersedia.");
     location.reload();
     return;
   }
