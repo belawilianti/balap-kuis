@@ -8,22 +8,33 @@
 </head>
 <body>
 
-<button id="fullscreenBtn" class="fullscreen-btn">🌙 Fullscreen</button>
+<button id="fullscreenBtn" class="fullscreen-btn">⛶ Fullscreen</button>
 
 <!-- OPENING -->
 <div id="opening">
   <div class="opening-box">
     <h1>🏁 BALAP KUIS MOBIL</h1>
-    <p>Pilih jumlah pemain</p>
 
+    <p>Pilih jumlah pemain</p>
     <div class="player-select">
       <button class="ps-btn active" data-player="2">2 Player</button>
       <button class="ps-btn" data-player="3">3 Player</button>
       <button class="ps-btn" data-player="4">4 Player</button>
     </div>
 
+    <p>Pilih kategori soal</p>
+    <div class="category-select">
+      <button class="cat-btn active" data-category="bahasa_indonesia">📘 Bahasa Indonesia</button>
+      <button class="cat-btn" data-category="bahasa_inggris">📗 Bahasa Inggris</button>
+      <button class="cat-btn" data-category="matematika">📐 Matematika</button>
+      <button class="cat-btn" data-category="ipa">🔬 IPA</button>
+      <button class="cat-btn" data-category="ips">🌍 IPS</button>
+      <button class="cat-btn" data-category="campuran">🎲 Campuran</button>
+    </div>
+
     <button id="startBtn" class="start-btn">MULAI</button>
   </div>
+
   <div id="countdown" class="hidden">3</div>
 </div>
 
