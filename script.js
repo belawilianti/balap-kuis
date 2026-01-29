@@ -17,12 +17,9 @@ function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-function getFinishX() {
-  const lane = document.querySelector(".lane");
-  const robot = document.querySelector(".robot");
-  return lane.offsetWidth - robot.offsetWidth - 10;
-}
-
+/* ===============================
+   START GAME
+================================ */
 async function startGame() {
   gameOver = false;
   gameStarted = true;
@@ -40,13 +37,17 @@ async function startGame() {
       pos: 0,
       soalIndex: i,
       robot,
-      panel: document.getElementById("p" + i)
+      panel: document.getElementById("p" + i),
+      finished: false
     });
 
     renderSoal(i);
   }
 }
 
+/* ===============================
+   RENDER SOAL
+================================ */
 function renderSoal(i) {
   if (!gameStarted) return;
 
@@ -63,36 +64,67 @@ function renderSoal(i) {
   `;
 }
 
+/* ===============================
+   JAWAB SOAL
+================================ */
 function jawab(i, pilih) {
   if (gameOver || !gameStarted) return;
 
   const p = players[i];
+  if (p.finished) return;
+
   const q = bankSoal[p.soalIndex];
 
   if (pilih === q.jawaban.toUpperCase()) {
     p.pos += STEP;
     p.robot.style.left = p.pos + "px";
-
-    if (p.pos >= getFinishX()) {
-      gameOver = true;
-      showWinner(i);
-      return;
-    }
   }
 
   p.soalIndex += 4;
+
   if (p.soalIndex < bankSoal.length) {
     renderSoal(i);
   } else {
-    p.panel.innerHTML += "<p><i>Soal habis</i></p>";
+    p.finished = true;
+    p.panel.innerHTML += "<p><b>SELESAI</b></p>";
+
+    // cek apakah semua player sudah selesai
+    const allDone = players.every(pl => pl.finished);
+    if (allDone) {
+      gameOver = true;
+      tentukanPemenang();
+    }
   }
 }
 
+/* ===============================
+   HITUNG PEMENANG
+================================ */
+function tentukanPemenang() {
+  let maxPos = -1;
+  let winnerIndex = 0;
+
+  players.forEach((p, i) => {
+    if (p.pos > maxPos) {
+      maxPos = p.pos;
+      winnerIndex = i;
+    }
+  });
+
+  showWinner(winnerIndex);
+}
+
+/* ===============================
+   SHOW WINNER
+================================ */
 function showWinner(i) {
   document.getElementById("winnerText").innerText = `Player ${i + 1}`;
   document.getElementById("winner").classList.remove("hidden");
 }
 
+/* ===============================
+   OPENING + COUNTDOWN
+================================ */
 const opening = document.getElementById("opening");
 const startBtn = document.getElementById("startBtn");
 const countdown = document.getElementById("countdown");
