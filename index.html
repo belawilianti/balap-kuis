@@ -12,9 +12,17 @@
 <div id="opening">
   <div class="opening-box">
     <h1>🏁 BALAP KUIS MOBIL</h1>
-    <p>Jawab soal, mobil melaju!</p>
+    <p>Pilih jumlah pemain</p>
+
+    <div class="player-select">
+      <button class="ps-btn active" data-player="2">2 Player</button>
+      <button class="ps-btn" data-player="3">3 Player</button>
+      <button class="ps-btn" data-player="4">4 Player</button>
+    </div>
+
     <button id="startBtn">MULAI</button>
   </div>
+
   <div id="countdown" class="hidden">3</div>
 </div>
 
@@ -30,19 +38,8 @@
 
 <h1>Balap Kuis Mobil</h1>
 
-<div id="track">
-  <div class="lane"><div class="car blue" id="c0">🚗</div></div>
-  <div class="lane"><div class="car red" id="c1">🚕</div></div>
-  <div class="lane"><div class="car yellow" id="c2">🏎️</div></div>
-  <div class="lane"><div class="car green" id="c3">🚙</div></div>
-</div>
-
-<div id="players">
-  <div class="player blue" id="p0"></div>
-  <div class="player red" id="p1"></div>
-  <div class="player yellow" id="p2"></div>
-  <div class="player green" id="p3"></div>
-</div>
+<div id="track"></div>
+<div id="players"></div>
 
 <script src="script.js"></script>
 </body>
