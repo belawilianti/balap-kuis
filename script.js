@@ -9,17 +9,15 @@ let totalPlayers = 2;
 
 /* FULLSCREEN */
 document.getElementById("fullscreenBtn").onclick = () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
+  document.fullscreenElement
+    ? document.exitFullscreen()
+    : document.documentElement.requestFullscreen();
 };
 
-/* TAHUN OTOMATIS */
+/* YEAR */
 document.getElementById("year").innerText = new Date().getFullYear();
 
-/* PILIH PLAYER */
+/* PLAYER SELECT */
 document.querySelectorAll(".ps-btn").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".ps-btn").forEach(b => b.classList.remove("active"));
@@ -50,13 +48,8 @@ document.getElementById("startBtn").onclick = () => {
 };
 
 /* UTIL */
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
-function randomOrder(n) {
-  return shuffle([...Array(n).keys()]);
-}
+const shuffle = a => a.sort(() => Math.random() - 0.5);
+const randomOrder = n => shuffle([...Array(n).keys()]);
 
 function shuffleOptions(q) {
   let opts = [
@@ -69,10 +62,15 @@ function shuffleOptions(q) {
   return { soal:q.soal, opts, correct:opts.find(o=>o.t===correctText).k };
 }
 
+function maxTrackX() {
+  const lane = document.querySelector(".lane");
+  const car = document.querySelector(".car");
+  return lane.offsetWidth - car.offsetWidth - 10;
+}
+
 /* GAME */
 async function startGame() {
-  const res = await fetch(sheetURL);
-  bankSoal = await res.json();
+  bankSoal = await (await fetch(sheetURL)).json();
 
   const track = document.getElementById("track");
   const panels = document.getElementById("players");
@@ -83,11 +81,7 @@ async function startGame() {
   const cars = ["🚗","🚕","🏎️","🚙"];
 
   for (let i = 0; i < totalPlayers; i++) {
-    track.innerHTML += `
-      <div class="lane">
-        <div class="car" id="c${i}">${cars[i]}</div>
-      </div>
-    `;
+    track.innerHTML += `<div class="lane"><div class="car" id="c${i}">${cars[i]}</div></div>`;
     panels.innerHTML += `<div class="player" id="p${i}"></div>`;
 
     players.push({
@@ -117,18 +111,18 @@ function renderSoal(i) {
     <h3>Player ${i+1}</h3>
     <b>${q.soal}</b>
     ${q.opts.map(o=>`
-      <button class="option" onclick="jawab(${i},'${o.k}')">
-        ${o.t}
-      </button>
+      <button class="option" onclick="jawab(${i},'${o.k}')">${o.t}</button>
     `).join("")}
   `;
 }
 
 function jawab(i, pilih) {
   const p = players[i];
+  if (p.finished) return;
+
   if (pilih === p.correct) {
-    p.pos += STEP;
-    p.car.style.left = p.pos+"px";
+    p.pos = Math.min(p.pos + STEP, maxTrackX());
+    p.car.style.left = p.pos + "px";
   }
 
   p.idx++;
@@ -136,14 +130,14 @@ function jawab(i, pilih) {
     renderSoal(i);
   } else {
     p.finished = true;
-    p.panel.innerHTML += "<p><b>SELESAI</b></p>";
+    p.panel.innerHTML = `<h3>Player ${i+1}</h3><p><b>SELESAI</b></p>`;
     if (players.every(pl=>pl.finished)) tentukanPemenang();
   }
 }
 
 function tentukanPemenang() {
-  let max = Math.max(...players.map(p=>p.pos));
-  let win = players.findIndex(p=>p.pos===max);
-  document.getElementById("winnerText").innerText = "Player "+(win+1);
+  const max = Math.max(...players.map(p=>p.pos));
+  const win = players.findIndex(p=>p.pos===max);
+  document.getElementById("winnerText").innerText = "Player " + (win+1);
   document.getElementById("winner").classList.remove("hidden");
 }
