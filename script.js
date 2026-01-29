@@ -132,3 +132,6 @@ function tentukanPemenang(){
   document.getElementById("winnerText").innerText = "Player "+(win+1);
   document.getElementById("winner").classList.remove("hidden");
 }
+
+document.getElementById("year").innerText = new Date().getFullYear();
+
