@@ -5,18 +5,36 @@ const STEP = 60;
 
 let bankSoal = [];
 let players = [];
+let totalPlayers = 2; // default
 let gameOver = true;
 let gameStarted = false;
 
+/* ===============================
+   DOM READY
+================================ */
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("winner").classList.add("hidden");
   document.getElementById("countdown").classList.add("hidden");
+
+  document.querySelectorAll(".ps-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".ps-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      totalPlayers = parseInt(btn.dataset.player);
+    };
+  });
 });
 
+/* ===============================
+   UTIL
+================================ */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
+/* ===============================
+   START GAME
+================================ */
 async function startGame() {
   gameOver = false;
   gameStarted = true;
@@ -24,24 +42,48 @@ async function startGame() {
 
   const res = await fetch(sheetURL);
   bankSoal = shuffle(await res.json());
+
+  const track = document.getElementById("track");
+  const panels = document.getElementById("players");
+
+  track.innerHTML = "";
+  panels.innerHTML = "";
   players = [];
 
-  for (let i = 0; i < 4; i++) {
-    const car = document.getElementById("c" + i);
-    car.style.left = "0px";
+  const cars = ["🚗", "🚕", "🏎️", "🚙"];
+  const colors = ["blue", "red", "yellow", "green"];
+
+  for (let i = 0; i < totalPlayers; i++) {
+    track.innerHTML += `
+      <div class="lane">
+        <div class="car ${colors[i]}" id="c${i}">${cars[i]}</div>
+      </div>
+    `;
+
+    panels.innerHTML += `
+      <div class="player ${colors[i]}" id="p${i}"></div>
+    `;
 
     players.push({
       pos: 0,
       soalIndex: i,
-      car,
-      panel: document.getElementById("p" + i),
+      car: null,
+      panel: null,
       finished: false
     });
-
-    renderSoal(i);
   }
+
+  players.forEach((p, i) => {
+    p.car = document.getElementById("c" + i);
+    p.panel = document.getElementById("p" + i);
+    p.car.style.left = "0px";
+    renderSoal(i);
+  });
 }
 
+/* ===============================
+   RENDER SOAL
+================================ */
 function renderSoal(i) {
   if (!gameStarted) return;
 
@@ -58,6 +100,9 @@ function renderSoal(i) {
   `;
 }
 
+/* ===============================
+   JAWAB
+================================ */
 function jawab(i, pilih) {
   if (gameOver || !gameStarted) return;
 
@@ -71,7 +116,7 @@ function jawab(i, pilih) {
     p.car.style.left = p.pos + "px";
   }
 
-  p.soalIndex += 4;
+  p.soalIndex += totalPlayers;
 
   if (p.soalIndex < bankSoal.length) {
     renderSoal(i);
@@ -86,21 +131,26 @@ function jawab(i, pilih) {
   }
 }
 
+/* ===============================
+   HITUNG PEMENANG
+================================ */
 function tentukanPemenang() {
   let max = Math.max(...players.map(p => p.pos));
-  let winners = players
-    .map((p, i) => ({ p, i }))
-    .filter(x => x.p.pos === max);
-
-  showWinner(winners[0].i);
+  let winner = players.findIndex(p => p.pos === max);
+  showWinner(winner);
 }
 
+/* ===============================
+   SHOW WINNER
+================================ */
 function showWinner(i) {
   document.getElementById("winnerText").innerText = `Player ${i + 1}`;
   document.getElementById("winner").classList.remove("hidden");
 }
 
-/* OPENING */
+/* ===============================
+   OPENING + COUNTDOWN
+================================ */
 const opening = document.getElementById("opening");
 const startBtn = document.getElementById("startBtn");
 const countdown = document.getElementById("countdown");
