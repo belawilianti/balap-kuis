@@ -12,7 +12,16 @@ const STEP = 60;
 ================================ */
 let bankSoal = [];
 let players = [];
-let gameOver = false;
+let gameOver = true;   // ⛔ game belum boleh jalan
+let gameStarted = false;
+
+/* ===============================
+   DOM READY – PAKSA STATE AWAL
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("winner").classList.add("hidden");
+  document.getElementById("countdown").classList.add("hidden");
+});
 
 /* ===============================
    UTIL
@@ -22,24 +31,31 @@ function shuffle(arr) {
 }
 
 /* ===============================
-   INIT GAME (DIPANGGIL SETELAH COUNTDOWN)
+   START GAME (SETELAH COUNTDOWN)
 ================================ */
 async function startGame() {
+  gameOver = false;
+  gameStarted = true;
+
+  // pastikan overlay winner hilang
+  winnerOverlay.classList.add("hidden");
+
   const res = await fetch(sheetURL);
   bankSoal = shuffle(await res.json());
 
   players = [];
-  gameOver = false;
 
   for (let i = 0; i < 4; i++) {
+    const robot = document.getElementById("r" + i);
+    robot.style.left = "0px";
+
     players.push({
       pos: 0,
       soalIndex: i,
-      robot: document.getElementById("r" + i),
+      robot,
       panel: document.getElementById("p" + i)
     });
 
-    players[i].robot.style.left = "0px";
     renderSoal(i);
   }
 }
@@ -48,6 +64,8 @@ async function startGame() {
    RENDER SOAL PER PLAYER
 ================================ */
 function renderSoal(i) {
+  if (!gameStarted) return;
+
   const p = players[i];
   const q = bankSoal[p.soalIndex];
   if (!q) return;
@@ -65,7 +83,7 @@ function renderSoal(i) {
    JAWAB SOAL
 ================================ */
 function jawab(i, pilih) {
-  if (gameOver) return;
+  if (gameOver || !gameStarted) return;
 
   const p = players[i];
   const q = bankSoal[p.soalIndex];
@@ -122,14 +140,14 @@ startBtn.onclick = () => {
       countdown.style.animation = "none";
       countdown.offsetHeight;
       countdown.style.animation = null;
-    } 
+    }
     else if (count === 0) {
       countdown.innerText = "GO!";
-    } 
+    }
     else {
       clearInterval(timer);
       opening.style.display = "none";
-      startGame(); // 🔥 SEKARANG BENAR
+      startGame(); // ✅ AMAN
     }
   }, 1000);
 };
