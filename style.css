@@ -140,6 +140,62 @@ h1 {
   100% { transform: scale(1); }
 }
 
+/* WINNER OVERLAY */
+#winner {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.winner-box {
+  background: linear-gradient(135deg, #f2c94c, #f2994a);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  animation: winPop 0.8s ease;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.winner-box h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.winner-box h2 {
+  margin: 10px 0 20px;
+  font-size: 26px;
+}
+
+.trophy {
+  font-size: 80px;
+  animation: bounce 1s infinite alternate;
+}
+
+.winner-box button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #27ae60;
+  color: white;
+}
+
+/* ANIMATIONS */
+@keyframes winPop {
+  0%   { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-15px); }
+}
+
 
 
 
