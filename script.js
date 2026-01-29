@@ -1,48 +1,30 @@
-/* ===============================
-   KONFIGURASI
-================================ */
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
 const FINISH = 820;
 const STEP = 60;
 
-/* ===============================
-   STATE GAME
-================================ */
 let bankSoal = [];
 let players = [];
-let gameOver = true;   // ⛔ game belum boleh jalan
+let gameOver = true;
 let gameStarted = false;
 
-/* ===============================
-   DOM READY – PAKSA STATE AWAL
-================================ */
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("winner").classList.add("hidden");
   document.getElementById("countdown").classList.add("hidden");
 });
 
-/* ===============================
-   UTIL
-================================ */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 
-/* ===============================
-   START GAME (SETELAH COUNTDOWN)
-================================ */
 async function startGame() {
   gameOver = false;
   gameStarted = true;
-
-  // pastikan overlay winner hilang
-  winnerOverlay.classList.add("hidden");
+  document.getElementById("winner").classList.add("hidden");
 
   const res = await fetch(sheetURL);
   bankSoal = shuffle(await res.json());
-
   players = [];
 
   for (let i = 0; i < 4; i++) {
@@ -60,12 +42,8 @@ async function startGame() {
   }
 }
 
-/* ===============================
-   RENDER SOAL PER PLAYER
-================================ */
 function renderSoal(i) {
   if (!gameStarted) return;
-
   const p = players[i];
   const q = bankSoal[p.soalIndex];
   if (!q) return;
@@ -79,9 +57,6 @@ function renderSoal(i) {
   `;
 }
 
-/* ===============================
-   JAWAB SOAL
-================================ */
 function jawab(i, pilih) {
   if (gameOver || !gameStarted) return;
 
@@ -107,20 +82,11 @@ function jawab(i, pilih) {
   }
 }
 
-/* ===============================
-   WINNER ANIMATION
-================================ */
-const winnerOverlay = document.getElementById("winner");
-const winnerText = document.getElementById("winnerText");
-
 function showWinner(i) {
-  winnerText.innerText = `Player ${i + 1}`;
-  winnerOverlay.classList.remove("hidden");
+  document.getElementById("winnerText").innerText = `Player ${i + 1}`;
+  document.getElementById("winner").classList.remove("hidden");
 }
 
-/* ===============================
-   OPENING + COUNTDOWN
-================================ */
 const opening = document.getElementById("opening");
 const startBtn = document.getElementById("startBtn");
 const countdown = document.getElementById("countdown");
@@ -134,20 +100,17 @@ startBtn.onclick = () => {
 
   const timer = setInterval(() => {
     count--;
-
     if (count > 0) {
       countdown.innerText = count;
       countdown.style.animation = "none";
       countdown.offsetHeight;
       countdown.style.animation = null;
-    }
-    else if (count === 0) {
+    } else if (count === 0) {
       countdown.innerText = "GO!";
-    }
-    else {
+    } else {
       clearInterval(timer);
       opening.style.display = "none";
-      startGame(); // ✅ AMAN
+      startGame();
     }
   }, 1000);
 };
