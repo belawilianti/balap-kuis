@@ -36,14 +36,17 @@ body {
   border-radius: 20px;
 }
 
-.player-select {
+.player-select,
+.category-select {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin: 15px 0;
+  flex-wrap: wrap;
 }
 
-.ps-btn {
+.ps-btn,
+.cat-btn {
   padding: 12px 24px;
   border: none;
   border-radius: 12px;
@@ -53,6 +56,12 @@ body {
 
 .ps-btn.active {
   background: #27ae60;
+  color: white;
+  transform: scale(1.05);
+}
+
+.cat-btn.active {
+  background: #2f80ed;
   color: white;
   transform: scale(1.05);
 }
@@ -88,7 +97,7 @@ body {
   position: relative;
   height: 60px;
   border-bottom: 2px dashed #555;
-  overflow: hidden; /* 🔒 KUNCI MOBIL */
+  overflow: hidden;
 }
 
 .car {
@@ -123,11 +132,6 @@ body {
   background: #3498db;
   color: white;
   font-size: 16px;
-}
-
-.player button:disabled {
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 /* WINNER */
