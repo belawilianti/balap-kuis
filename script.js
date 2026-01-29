@@ -1,67 +1,64 @@
 const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
-let questions = [];
-let index = 0;
-let player = 0;
+const FINISH = 820;
+const STEP = 60;
 
-const step = 60;
-const finishX = 700;
-const positions = [0, 0, 0, 0];
+let bankSoal = [];
+let players = [];
 
-const robots = [
-  document.getElementById("r0"),
-  document.getElementById("r1"),
-  document.getElementById("r2"),
-  document.getElementById("r3")
-];
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
 
-const qBox = document.getElementById("question");
-const turn = document.getElementById("turn");
-
-async function loadSoal() {
+async function init() {
   const res = await fetch(sheetURL);
-  questions = await res.json();
-}
+  bankSoal = shuffle(await res.json());
 
-function startGame() {
-  document.getElementById("start").style.display = "none";
-  showSoal();
-}
-
-function showSoal() {
-  if (index >= questions.length) {
-    qBox.innerHTML = "Soal habis!";
-    return;
+  for (let i = 0; i < 4; i++) {
+    players.push({
+      pos: 0,
+      soalIndex: i,
+      robot: document.getElementById("r" + i),
+      panel: document.getElementById("p" + i)
+    });
+    renderSoal(i);
   }
+}
 
-  const q = questions[index];
-  turn.innerText = "Pemain " + (player + 1);
-  qBox.innerHTML = `
-    <b>${q.soal}</b><br>
-    A. ${q.a}<br>
-    B. ${q.b}<br>
-    C. ${q.c}
+function renderSoal(i) {
+  const p = players[i];
+  const q = bankSoal[p.soalIndex];
+
+  p.panel.innerHTML = `
+    <h3>Player ${i + 1}</h3>
+    <b>${q.soal}</b>
+    <button class="option" onclick="jawab(${i}, 'A')">A. ${q.a}</button>
+    <button class="option" onclick="jawab(${i}, 'B')">B. ${q.b}</button>
+    <button class="option" onclick="jawab(${i}, 'C')">C. ${q.c}</button>
   `;
 }
 
-function answer(choice) {
-  const correct = questions[index].jawaban.toUpperCase();
+function jawab(i, pilih) {
+  const p = players[i];
+  const q = bankSoal[p.soalIndex];
 
-  if (choice === correct) {
-    positions[player] += step;
-    robots[player].style.left = positions[player] + "px";
+  if (pilih === q.jawaban.toUpperCase()) {
+    p.pos += STEP;
+    p.robot.style.left = p.pos + "px";
 
-    if (positions[player] >= finishX) {
-      qBox.innerHTML = `🏆 PEMAIN ${player + 1} MENANG!`;
-      turn.innerText = "SELESAI";
+    if (p.pos >= FINISH) {
+      alert(`🏆 Player ${i + 1} MENANG!`);
       return;
     }
   }
 
-  player = (player + 1) % 4;
-  index++;
-  showSoal();
+  p.soalIndex += 4;
+  if (p.soalIndex < bankSoal.length) {
+    renderSoal(i);
+  } else {
+    p.panel.innerHTML += "<p>Soal habis</p>";
+  }
 }
 
-loadSoal();
+init();
