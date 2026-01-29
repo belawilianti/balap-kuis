@@ -2,7 +2,6 @@ const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
 const STEP = 40;
-const JUMLAH_PER_KATEGORI = 5; // 🔧 atur jumlah soal tiap kategori untuk campuran
 
 let bankSoal = [];
 let players = [];
@@ -91,12 +90,25 @@ async function startGame() {
       "bahasa_inggris"
     ];
 
-    bankSoal = [];
+    const grup = {};
+    kategoriList.forEach(k => {
+      grup[k] = allSoal.filter(s => s.kategori === k);
+    });
 
-    kategoriList.forEach(kat => {
-      const soalKategori = allSoal.filter(s => s.kategori === kat);
-      const acak = shuffle([...soalKategori]);
-      bankSoal.push(...acak.slice(0, JUMLAH_PER_KATEGORI));
+    const minJumlah = Math.min(
+      ...Object.values(grup).map(arr => arr.length).filter(n => n > 0)
+    );
+
+    if (!minJumlah || minJumlah === Infinity) {
+      alert("Soal campuran belum tersedia.");
+      location.reload();
+      return;
+    }
+
+    bankSoal = [];
+    kategoriList.forEach(k => {
+      const acak = shuffle([...grup[k]]);
+      bankSoal.push(...acak.slice(0, minJumlah));
     });
 
   } else {
