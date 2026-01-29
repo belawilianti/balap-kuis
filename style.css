@@ -143,3 +143,45 @@ body {
 .trophy {
   font-size: 80px;
 }
+
+/* ===============================
+   CREDIT / FOOTER
+================================ */
+.credit {
+  margin-top: 30px;
+  padding: 15px 10px;
+  background: #eaf7ff;
+  text-align: center;
+  border-top: 2px solid #cce9ff;
+  font-size: 14px;
+}
+
+.credit .creator {
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.credit .social {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.credit .social a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.credit .social a:hover {
+  color: #27ae60;
+}
+
+
+
