@@ -62,10 +62,9 @@ function shuffleOptions(q) {
   return { soal:q.soal, opts, correct:opts.find(o=>o.t===correctText).k };
 }
 
-function maxTrackX() {
-  const lane = document.querySelector(".lane");
-  const car = document.querySelector(".car");
-  return lane.offsetWidth - car.offsetWidth - 10;
+function maxTrackX(car) {
+  const lane = car.parentElement;
+  return lane.offsetWidth - car.offsetWidth - 5;
 }
 
 /* GAME */
@@ -81,7 +80,10 @@ async function startGame() {
   const cars = ["🚗","🚕","🏎️","🚙"];
 
   for (let i = 0; i < totalPlayers; i++) {
-    track.innerHTML += `<div class="lane"><div class="car" id="c${i}">${cars[i]}</div></div>`;
+    track.innerHTML += `
+      <div class="lane">
+        <div class="car" id="c${i}">${cars[i]}</div>
+      </div>`;
     panels.innerHTML += `<div class="player" id="p${i}"></div>`;
 
     players.push({
@@ -104,6 +106,8 @@ async function startGame() {
 
 function renderSoal(i) {
   const p = players[i];
+  if (p.finished) return;
+
   const q = shuffleOptions(bankSoal[p.order[p.idx]]);
   p.correct = q.correct;
 
@@ -121,7 +125,7 @@ function jawab(i, pilih) {
   if (p.finished) return;
 
   if (pilih === p.correct) {
-    p.pos = Math.min(p.pos + STEP, maxTrackX());
+    p.pos = Math.min(p.pos + STEP, maxTrackX(p.car));
     p.car.style.left = p.pos + "px";
   }
 
@@ -130,8 +134,11 @@ function jawab(i, pilih) {
     renderSoal(i);
   } else {
     p.finished = true;
-    p.panel.innerHTML = `<h3>Player ${i+1}</h3><p><b>SELESAI</b></p>`;
+    p.panel.innerHTML = `
+      <h3>Player ${i+1}</h3>
+      <p style="font-weight:bold;color:green;">SELESAI</p>`;
     if (players.every(pl=>pl.finished)) tentukanPemenang();
+    return;
   }
 }
 
