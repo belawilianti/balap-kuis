@@ -2,6 +2,7 @@ const sheetURL =
 "https://opensheet.elk.sh/1_DDOM1Fzrrs9Vu_c9mC-3hVq7ZY0o7V1PW-Hcq0Y60Q/Sheet1";
 
 const STEP = 40;
+const TOTAL_SOAL_CAMPURAN = 20;
 
 let bankSoal = [];
 let players = [];
@@ -90,33 +91,31 @@ async function startGame() {
       "bahasa_inggris"
     ];
 
-    const grup = {};
-    kategoriList.forEach(k => {
-      grup[k] = allSoal.filter(s => s.kategori === k);
+    const perKategori = Math.floor(TOTAL_SOAL_CAMPURAN / kategoriList.length);
+    let hasil = [];
+    let sisa = TOTAL_SOAL_CAMPURAN;
+
+    kategoriList.forEach(kat => {
+      const soalKat = shuffle(allSoal.filter(s => s.kategori === kat));
+      const ambil = Math.min(perKategori, soalKat.length);
+      hasil.push(...soalKat.slice(0, ambil));
+      sisa -= ambil;
     });
 
-    const minJumlah = Math.min(
-      ...Object.values(grup).map(arr => arr.length).filter(n => n > 0)
-    );
-
-    if (!minJumlah || minJumlah === Infinity) {
-      alert("Soal campuran belum tersedia.");
-      location.reload();
-      return;
+    if (sisa > 0) {
+      const tambahan = shuffle(
+        allSoal.filter(s => !hasil.includes(s))
+      );
+      hasil.push(...tambahan.slice(0, sisa));
     }
 
-    bankSoal = [];
-    kategoriList.forEach(k => {
-      const acak = shuffle([...grup[k]]);
-      bankSoal.push(...acak.slice(0, minJumlah));
-    });
-
+    bankSoal = shuffle(hasil);
   } else {
     bankSoal = allSoal.filter(s => s.kategori === selectedCategory);
   }
 
   if (bankSoal.length === 0) {
-    alert("Soal untuk kategori ini belum tersedia.");
+    alert("Soal belum tersedia.");
     location.reload();
     return;
   }
