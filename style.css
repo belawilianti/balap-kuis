@@ -131,7 +131,7 @@ h1 {
 }
 
 .hidden {
-  display: none;
+  display: none; !important;
 }
 
 @keyframes pop {
@@ -195,6 +195,7 @@ h1 {
   from { transform: translateY(0); }
   to   { transform: translateY(-15px); }
 }
+
 
 
 
