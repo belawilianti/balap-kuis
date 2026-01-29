@@ -6,6 +6,7 @@ const STEP = 40;
 let bankSoal = [];
 let players = [];
 let totalPlayers = 2;
+let selectedCategory = "bahasa_indonesia";
 
 /* FULLSCREEN */
 document.getElementById("fullscreenBtn").onclick = () => {
@@ -23,6 +24,15 @@ document.querySelectorAll(".ps-btn").forEach(btn => {
     document.querySelectorAll(".ps-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     totalPlayers = parseInt(btn.dataset.player);
+  };
+});
+
+/* CATEGORY SELECT */
+document.querySelectorAll(".cat-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedCategory = btn.dataset.category;
   };
 });
 
@@ -69,7 +79,19 @@ function maxTrackX(car) {
 
 /* GAME */
 async function startGame() {
-  bankSoal = await (await fetch(sheetURL)).json();
+  const allSoal = await (await fetch(sheetURL)).json();
+
+  if (selectedCategory === "campuran") {
+    bankSoal = allSoal;
+  } else {
+    bankSoal = allSoal.filter(s => s.kategori === selectedCategory);
+  }
+
+  if (bankSoal.length === 0) {
+    alert("Soal kategori ini belum tersedia.");
+    location.reload();
+    return;
+  }
 
   const track = document.getElementById("track");
   const panels = document.getElementById("players");
@@ -134,11 +156,8 @@ function jawab(i, pilih) {
     renderSoal(i);
   } else {
     p.finished = true;
-    p.panel.innerHTML = `
-      <h3>Player ${i+1}</h3>
-      <p style="font-weight:bold;color:green;">SELESAI</p>`;
+    p.panel.innerHTML = `<h3>Player ${i+1}</h3><b>SELESAI</b>`;
     if (players.every(pl=>pl.finished)) tentukanPemenang();
-    return;
   }
 }
 
