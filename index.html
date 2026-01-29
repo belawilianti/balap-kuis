@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<button id="fullscreenBtn" class="fullscreen-btn">🌙 Fullscreen</button>
+
 <!-- OPENING -->
 <div id="opening">
   <div class="opening-box">
@@ -22,7 +24,6 @@
 
     <button id="startBtn" class="start-btn">MULAI</button>
   </div>
-
   <div id="countdown" class="hidden">3</div>
 </div>
 
@@ -30,7 +31,7 @@
 <div id="winner" class="hidden">
   <div class="winner-box">
     <h1>🏆 PEMENANG</h1>
-    <h2 id="winnerText">Player</h2>
+    <h2 id="winnerText"></h2>
     <div class="trophy">🚗</div>
     <button onclick="location.reload()">MAIN LAGI</button>
   </div>
@@ -41,34 +42,12 @@
 <div id="track"></div>
 <div id="players"></div>
 
-<script src="script.js"></script>
-  <footer class="credit">
-  <p class="creator">
-    Dibuat oleh: <strong>Bela Wilianti</strong>
-  </p>
-
-     <p class="school">
-    SMP Negeri 08 Seluma
-  </p>
-
-  <div class="social">
-    <a href="" target="_blank" aria-label="Instagram">
-      📸 <span>@Bela Wilianti</span>
-    </a>
-
-    <a href="" target="_blank" aria-label="TikTok">
-      🎵 <span>@Bela Wilianti</span>
-    </a>
-
-    <a href="" target="_blank" aria-label="Facebook">
-      📘 <span>Bela Wilianti</span>
-    </a>
-  </div>
+<footer class="credit">
+  <p class="creator">Dibuat oleh <strong>Bela Wilianti</strong></p>
+  <p class="school">SMP Negeri 08 Seluma</p>
+  <p>© <span id="year"></span></p>
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
-
-
-
-
