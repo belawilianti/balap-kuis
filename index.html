@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Balap Kuis</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<!-- OPENING OVERLAY -->
+
+<!-- OPENING -->
 <div id="opening">
   <div class="opening-box">
     <h1>🏁 BALAP KUIS</h1>
     <p>Siap berlomba?</p>
     <button id="startBtn">MULAI</button>
   </div>
-
   <div id="countdown" class="hidden">3</div>
 </div>
-<!-- WINNER OVERLAY -->
+
+<!-- WINNER -->
 <div id="winner" class="hidden">
   <div class="winner-box">
     <h1>🏆 PEMENANG!</h1>
-    <h2 id="winnerText">Player 1</h2>
+    <h2 id="winnerText">Player</h2>
     <div class="trophy">🏆</div>
     <button onclick="location.reload()">MAIN LAGI</button>
   </div>
@@ -31,12 +32,10 @@
 
 <div id="track">
   <div class="finish">FINISH</div>
-
   <div class="lane"><span class="robot blue" id="r0">🤖</span></div>
   <div class="lane"><span class="robot red" id="r1">🤖</span></div>
   <div class="lane"><span class="robot yellow" id="r2">🤖</span></div>
   <div class="lane"><span class="robot green" id="r3">🤖</span></div>
-
   <div class="start">START</div>
 </div>
 
@@ -50,5 +49,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
