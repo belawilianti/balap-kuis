@@ -2,8 +2,21 @@ body {
   font-family: Arial, sans-serif;
   background: #56ccf2;
   margin: 0;
-  padding: 0;
+  padding-bottom: 110px;
   text-align: center;
+}
+
+/* FULLSCREEN */
+.fullscreen-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 20000;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #2f80ed;
+  color: white;
 }
 
 /* OPENING */
@@ -19,42 +32,30 @@ body {
 
 .opening-box {
   background: white;
-  padding: 35px 45px;
+  padding: 30px 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 .player-select {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
-/* BUTTON PILIH PLAYER */
 .ps-btn {
   padding: 12px 24px;
-  font-size: 16px;
   border: none;
   border-radius: 12px;
-  background: #e0e0e0;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.ps-btn:hover {
-  background: #cfcfcf;
+  background: #ddd;
 }
 
 .ps-btn.active {
-  background: #27ae60 !important;
+  background: #27ae60;
   color: white;
-  transform: scale(1.08);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+  transform: scale(1.05);
 }
 
-/* BUTTON START */
 .start-btn {
   padding: 14px 40px;
   font-size: 20px;
@@ -62,14 +63,12 @@ body {
   border-radius: 14px;
   background: #27ae60;
   color: white;
-  cursor: pointer;
 }
 
-/* COUNTDOWN */
 #countdown {
   font-size: 100px;
-  font-weight: bold;
   color: white;
+  font-weight: bold;
 }
 
 .hidden {
@@ -79,7 +78,7 @@ body {
 /* TRACK */
 #track {
   max-width: 1000px;
-  margin: 15px auto;
+  margin: 10px auto;
   background: #bde3ff;
   border-radius: 10px;
 }
@@ -98,7 +97,7 @@ body {
   transition: left 0.3s ease;
 }
 
-/* PLAYER PANELS */
+/* PLAYER PANEL */
 #players {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -121,7 +120,6 @@ body {
   border-radius: 8px;
   background: #3498db;
   color: white;
-  font-size: 16px;
 }
 
 /* WINNER */
@@ -135,7 +133,7 @@ body {
 }
 
 .winner-box {
-  background: linear-gradient(135deg, #f2c94c, #f2994a);
+  background: linear-gradient(135deg,#f2c94c,#f2994a);
   padding: 40px;
   border-radius: 20px;
 }
@@ -144,65 +142,12 @@ body {
   font-size: 80px;
 }
 
-/* ===============================
-   CREDIT / FOOTER
-================================ */
+/* FOOTER */
 .credit {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
   background: #eaf7ff;
-  text-align: center;
-  padding: 12px 10px;
+  padding: 10px;
   border-top: 2px solid #cce9ff;
-  font-size: 14px;
-  z-index: 5000;
 }
-
-.credit .creator {
-  margin: 0 0 8px;
-  font-weight: 600;
-  color: #333;
-}
-
-.credit .social {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.credit .social a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.2s ease;
-}
-
-.credit .social a:hover {
-  color: #27ae60;
-}
-
-.credit .school {
-  margin: 4px 0 8px;
-  font-weight: 600;
-  color: #2f80ed;
-}
-
-.credit .copyright {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #555;
-}
-
-
-body {
-  padding-bottom: 90px;
-}
-
-
-
