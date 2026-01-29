@@ -1,37 +1,52 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  padding: 20px;
+  background: #f2f2f2;
 }
 
-#game-area { margin-top: 20px; }
+h1 {
+  margin: 20px 0;
+}
 
-.track {
+#race {
   width: 90%;
-  height: 40px;
-  border: 1px solid #333;
-  margin: 10px auto;
-  position: relative;
-  font-size: 24px;
+  margin: 20px auto;
+  border: 2px solid #000;
+  background: #fff;
 }
 
-.track::before {
-  content: "";
+.lane {
+  position: relative;
+  height: 60px;
+  border-bottom: 1px dashed #999;
+}
+
+.robot {
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 10px;
+  font-size: 32px;
+  transition: left 0.5s ease;
 }
 
-#question-box { margin-top: 30px; display: none; }
-
-#answer {
-  padding: 6px;
-  font-size: 16px;
+#quiz {
+  margin-top: 20px;
 }
 
-button {
-  padding: 8px 12px;
+#question {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.options button {
+  margin: 5px;
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+}
+
+#start {
+  margin-top: 15px;
+  padding: 10px 30px;
+  font-size: 18px;
 }
