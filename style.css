@@ -6,7 +6,6 @@ body {
   text-align: center;
 }
 
-/* FULLSCREEN */
 .fullscreen-btn {
   position: fixed;
   top: 10px;
@@ -19,7 +18,6 @@ body {
   color: white;
 }
 
-/* OPENING */
 #opening {
   position: fixed;
   inset: 0;
@@ -57,13 +55,11 @@ body {
 .ps-btn.active {
   background: #27ae60;
   color: white;
-  transform: scale(1.05);
 }
 
 .cat-btn.active {
   background: #2f80ed;
   color: white;
-  transform: scale(1.05);
 }
 
 .start-btn {
@@ -85,7 +81,6 @@ body {
   display: none !important;
 }
 
-/* TRACK */
 #track {
   max-width: 1000px;
   margin: 10px auto;
@@ -108,7 +103,6 @@ body {
   transition: left 0.3s ease;
 }
 
-/* PLAYER PANEL */
 #players {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -134,7 +128,6 @@ body {
   font-size: 16px;
 }
 
-/* WINNER */
 #winner {
   position: fixed;
   inset: 0;
@@ -154,7 +147,6 @@ body {
   font-size: 80px;
 }
 
-/* FOOTER */
 .credit {
   position: fixed;
   bottom: 0;
